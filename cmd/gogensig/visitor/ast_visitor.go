@@ -3,7 +3,7 @@ package visitor
 import (
 	"fmt"
 
-	"github.com/goplus/llgo/chore/llcppg/ast"
+	"github.com/goplus/llcppg/ast"
 )
 
 type DocVisitor interface {

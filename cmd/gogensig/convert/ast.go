@@ -1,6 +1,6 @@
 /*
 This file is used to convert ast
-from "github.com/goplus/llgo/chore/llcppg/ast" to "go/ast"
+from "github.com/goplus/llcppg/ast" to "go/ast"
 */
 package convert
 
@@ -9,7 +9,7 @@ import (
 	goast "go/ast"
 	"go/token"
 
-	"github.com/goplus/llgo/chore/llcppg/ast"
+	"github.com/goplus/llcppg/ast"
 )
 
 type ConvertComment struct {

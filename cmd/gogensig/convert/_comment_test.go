@@ -3,9 +3,9 @@ package convert_test
 import (
 	"testing"
 
-	"github.com/goplus/llgo/chore/gogensig/cmptest"
-	"github.com/goplus/llgo/chore/gogensig/config"
-	cppgtypes "github.com/goplus/llgo/chore/llcppg/types"
+	"github.com/goplus/llcppg/cmd/gogensig/cmptest"
+	"github.com/goplus/llcppg/cmd/gogensig/config"
+	cppgtypes "github.com/goplus/llcppg/types"
 )
 
 // TODO

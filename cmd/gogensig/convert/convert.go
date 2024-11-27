@@ -4,10 +4,10 @@ import (
 	"errors"
 	"log"
 
-	cfg "github.com/goplus/llgo/chore/gogensig/config"
-	"github.com/goplus/llgo/chore/gogensig/visitor"
-	"github.com/goplus/llgo/chore/llcppg/ast"
-	cppgtypes "github.com/goplus/llgo/chore/llcppg/types"
+	"github.com/goplus/llcppg/ast"
+	cfg "github.com/goplus/llcppg/cmd/gogensig/config"
+	"github.com/goplus/llcppg/cmd/gogensig/visitor"
+	cppgtypes "github.com/goplus/llcppg/types"
 )
 
 type AstConvert struct {

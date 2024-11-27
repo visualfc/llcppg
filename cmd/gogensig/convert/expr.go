@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/goplus/llgo/chore/llcppg/ast"
+	"github.com/goplus/llcppg/ast"
 )
 
 type ConvertExpr struct {

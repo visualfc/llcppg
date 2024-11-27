@@ -1,10 +1,10 @@
 package basic
 
 import (
-	"github.com/goplus/llgo/chore/gogensig/convert"
-	"github.com/goplus/llgo/chore/gogensig/processor"
-	"github.com/goplus/llgo/chore/gogensig/unmarshal"
-	"github.com/goplus/llgo/chore/gogensig/visitor"
+	"github.com/goplus/llcppg/cmd/gogensig/convert"
+	"github.com/goplus/llcppg/cmd/gogensig/processor"
+	"github.com/goplus/llcppg/cmd/gogensig/unmarshal"
+	"github.com/goplus/llcppg/cmd/gogensig/visitor"
 )
 
 // For a default full convert processing,for main logic

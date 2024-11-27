@@ -11,10 +11,10 @@ import (
 	"unsafe"
 
 	"github.com/goplus/gogen"
-	"github.com/goplus/llgo/chore/gogensig/config"
-	"github.com/goplus/llgo/chore/gogensig/convert/names"
-	"github.com/goplus/llgo/chore/gogensig/convert/sizes"
-	"github.com/goplus/llgo/chore/llcppg/ast"
+	"github.com/goplus/llcppg/ast"
+	"github.com/goplus/llcppg/cmd/gogensig/config"
+	"github.com/goplus/llcppg/cmd/gogensig/convert/names"
+	"github.com/goplus/llcppg/cmd/gogensig/convert/sizes"
 )
 
 type HeaderInfo struct {

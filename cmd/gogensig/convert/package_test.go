@@ -8,12 +8,12 @@ import (
 	"testing"
 
 	"github.com/goplus/gogen"
-	"github.com/goplus/llgo/chore/gogensig/cmp"
-	cfg "github.com/goplus/llgo/chore/gogensig/config"
-	"github.com/goplus/llgo/chore/gogensig/convert"
-	"github.com/goplus/llgo/chore/gogensig/convert/names"
-	"github.com/goplus/llgo/chore/llcppg/ast"
-	cppgtypes "github.com/goplus/llgo/chore/llcppg/types"
+	"github.com/goplus/llcppg/ast"
+	"github.com/goplus/llcppg/cmd/gogensig/cmp"
+	cfg "github.com/goplus/llcppg/cmd/gogensig/config"
+	"github.com/goplus/llcppg/cmd/gogensig/convert"
+	"github.com/goplus/llcppg/cmd/gogensig/convert/names"
+	cppgtypes "github.com/goplus/llcppg/types"
 )
 
 func init() {

@@ -9,11 +9,11 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/goplus/llgo/chore/gogensig/config"
-	"github.com/goplus/llgo/chore/gogensig/convert"
-	"github.com/goplus/llgo/chore/gogensig/convert/basic"
-	"github.com/goplus/llgo/chore/gogensig/unmarshal"
-	"github.com/goplus/llgo/chore/llcppg/ast"
+	"github.com/goplus/llcppg/ast"
+	"github.com/goplus/llcppg/cmd/gogensig/config"
+	"github.com/goplus/llcppg/cmd/gogensig/convert"
+	"github.com/goplus/llcppg/cmd/gogensig/convert/basic"
+	"github.com/goplus/llcppg/cmd/gogensig/unmarshal"
 	"github.com/goplus/llgo/xtool/env"
 )
 

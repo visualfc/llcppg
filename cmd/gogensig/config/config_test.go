@@ -8,8 +8,8 @@ import (
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
-	"github.com/goplus/llgo/chore/gogensig/config"
-	cppgtypes "github.com/goplus/llgo/chore/llcppg/types"
+	"github.com/goplus/llcppg/cmd/gogensig/config"
+	cppgtypes "github.com/goplus/llcppg/types"
 )
 
 func TestLookupSymbolOK(t *testing.T) {

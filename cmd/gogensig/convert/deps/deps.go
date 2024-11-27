@@ -4,7 +4,7 @@ import (
 	"errors"
 	"path/filepath"
 
-	"github.com/goplus/llgo/chore/gogensig/config"
+	"github.com/goplus/llcppg/cmd/gogensig/config"
 	"github.com/goplus/mod/gopmod"
 )
 

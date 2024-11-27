@@ -5,8 +5,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/goplus/llgo/chore/gogensig/unmarshal"
-	"github.com/goplus/llgo/chore/llcppg/ast"
+	"github.com/goplus/llcppg/ast"
+	"github.com/goplus/llcppg/cmd/gogensig/unmarshal"
 )
 
 func TestUnmarshalNode(t *testing.T) {

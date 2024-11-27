@@ -3,7 +3,7 @@ package _depcjson
 
 import (
 	"github.com/goplus/llgo/c"
-	"github.com/goplus/llgo/chore/gogensig/convert/testdata/cjson"
+	"github.com/goplus/llcppg/cmd/gogensig/convert/testdata/cjson"
 	_ "unsafe"
 )
 //go:linkname CreateResponse C.create_response

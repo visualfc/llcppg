@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/goplus/llgo/chore/gogensig/convert/names"
+	"github.com/goplus/llcppg/cmd/gogensig/convert/names"
 )
 
 type HeaderFile struct {

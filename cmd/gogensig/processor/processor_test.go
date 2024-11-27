@@ -5,13 +5,13 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/goplus/llgo/chore/gogensig/config"
-	"github.com/goplus/llgo/chore/gogensig/convert"
-	"github.com/goplus/llgo/chore/gogensig/convert/basic"
-	"github.com/goplus/llgo/chore/gogensig/processor"
-	"github.com/goplus/llgo/chore/gogensig/unmarshal"
-	"github.com/goplus/llgo/chore/gogensig/visitor"
-	"github.com/goplus/llgo/chore/llcppg/ast"
+	"github.com/goplus/llcppg/ast"
+	"github.com/goplus/llcppg/cmd/gogensig/config"
+	"github.com/goplus/llcppg/cmd/gogensig/convert"
+	"github.com/goplus/llcppg/cmd/gogensig/convert/basic"
+	"github.com/goplus/llcppg/cmd/gogensig/processor"
+	"github.com/goplus/llcppg/cmd/gogensig/unmarshal"
+	"github.com/goplus/llcppg/cmd/gogensig/visitor"
 )
 
 func TestProcessValidSigfetchContent(t *testing.T) {

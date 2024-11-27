@@ -5,7 +5,7 @@ import (
 	"go/types"
 
 	"github.com/goplus/gogen"
-	"github.com/goplus/llgo/chore/llcppg/ast"
+	"github.com/goplus/llcppg/ast"
 )
 
 type BuiltinTypeMap struct {

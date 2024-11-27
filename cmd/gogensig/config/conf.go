@@ -11,8 +11,8 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/goplus/llgo/chore/gogensig/unmarshal"
-	cppgtypes "github.com/goplus/llgo/chore/llcppg/types"
+	"github.com/goplus/llcppg/cmd/gogensig/unmarshal"
+	cppgtypes "github.com/goplus/llcppg/types"
 )
 
 // llcppg.cfg

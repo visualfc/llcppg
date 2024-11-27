@@ -11,12 +11,12 @@ import (
 	"regexp"
 
 	"github.com/goplus/gogen"
-	"github.com/goplus/llgo/chore/_xtool/llcppsymg/config/cfgparse"
-	cfg "github.com/goplus/llgo/chore/gogensig/config"
-	"github.com/goplus/llgo/chore/gogensig/convert/deps"
-	"github.com/goplus/llgo/chore/gogensig/convert/names"
-	"github.com/goplus/llgo/chore/llcppg/ast"
-	cppgtypes "github.com/goplus/llgo/chore/llcppg/types"
+	"github.com/goplus/llcppg/_xtool/llcppsymg/config/cfgparse"
+	"github.com/goplus/llcppg/ast"
+	cfg "github.com/goplus/llcppg/cmd/gogensig/config"
+	"github.com/goplus/llcppg/cmd/gogensig/convert/deps"
+	"github.com/goplus/llcppg/cmd/gogensig/convert/names"
+	cppgtypes "github.com/goplus/llcppg/types"
 )
 
 const (

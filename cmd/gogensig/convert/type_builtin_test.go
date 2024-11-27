@@ -6,9 +6,9 @@ import (
 	"testing"
 
 	"github.com/goplus/gogen"
-	"github.com/goplus/llgo/chore/gogensig/config"
-	"github.com/goplus/llgo/chore/llcppg/ast"
-	cppgtypes "github.com/goplus/llgo/chore/llcppg/types"
+	"github.com/goplus/llcppg/ast"
+	"github.com/goplus/llcppg/cmd/gogensig/config"
+	cppgtypes "github.com/goplus/llcppg/types"
 )
 
 func TestIdentRef(t *testing.T) {
