@@ -11,8 +11,13 @@ on:
 
 jobs:
 
-  build:
-    runs-on: ubuntu-latest
+  test:
+    strategy:
+      matrix:
+        os:
+          - macos-latest
+        llvm: [18]
+    runs-on: ${{matrix.os}}
     steps:
     - uses: actions/checkout@v4
 
@@ -21,11 +26,28 @@ jobs:
       with:
         go-version: '1.20'
 
+    - name: Install dependencies
+      if: startsWith(matrix.os, 'macos')
+      run: |
+        brew update
+        brew install llvm@${{matrix.llvm}} bdw-gc openssl libffi
+        brew link --force libffi
+        echo "$(brew --prefix llvm@${{matrix.llvm}})/bin" >> $GITHUB_PATH
+
+        # llcppg dependencies
+        brew install cjson
+
+    - name: Install LLGO
+      run: |
+        go install github.com/goplus/llgo/cmd/llgo@main
+
     - name: Build
       run: go build -v ./...
+
+    - name: Install llcppg dependencies
+      run: bash .github/workflows/install_llcppg_depend.sh
 
     - name: Test
       run: go test -v ./...
 
-    - name: Install llcppg dependencies
-     run: bash .github/workflows/install_llcppg_depend.sh
+
