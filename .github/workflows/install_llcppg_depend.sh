@@ -2,5 +2,5 @@
 set -e
 
 llgo install ./_xtool/llcppsymg
-# llgo install ./chore/_xtool/llcppsigfetch
+llgo install ./_xtool/llcppsigfetch
 go install ./cmd/gogensig

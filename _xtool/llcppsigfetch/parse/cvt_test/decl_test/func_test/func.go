@@ -1,6 +1,6 @@
 package main
 
-import test "github.com/goplus/llgo/chore/_xtool/llcppsigfetch/parse/cvt_test"
+import test "github.com/goplus/llcppg/_xtool/llcppsigfetch/parse/cvt_test"
 
 func main() {
 	TestFuncDecl()
