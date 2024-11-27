@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/goplus/llcppg/_xtool/llcppsymg/clangutils"
 	"github.com/goplus/llgo/c"
 	"github.com/goplus/llgo/c/clang"
-	"github.com/goplus/llgo/chore/_xtool/llcppsymg/clangutils"
 )
 
 func main() {

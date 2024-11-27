@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/goplus/llgo/chore/_xtool/llcppsymg/args"
+	"github.com/goplus/llcppg/_xtool/llcppsymg/args"
 )
 
 func main() {

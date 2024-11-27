@@ -7,8 +7,8 @@ import (
 	"runtime"
 	"strings"
 
-	"github.com/goplus/llgo/chore/_xtool/llcppsymg/config"
-	"github.com/goplus/llgo/chore/_xtool/llcppsymg/config/cfgparse"
+	"github.com/goplus/llcppg/_xtool/llcppsymg/config"
+	"github.com/goplus/llcppg/_xtool/llcppsymg/config/cfgparse"
 )
 
 func main() {

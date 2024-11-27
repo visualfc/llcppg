@@ -5,9 +5,9 @@ import (
 	"os"
 	"sort"
 
-	"github.com/goplus/llgo/chore/_xtool/llcppsymg/parse"
-	"github.com/goplus/llgo/chore/_xtool/llcppsymg/symbol"
-	"github.com/goplus/llgo/chore/llcppg/types"
+	"github.com/goplus/llcppg/_xtool/llcppsymg/parse"
+	"github.com/goplus/llcppg/_xtool/llcppsymg/symbol"
+	"github.com/goplus/llcppg/types"
 	"github.com/goplus/llgo/xtool/nm"
 )
 

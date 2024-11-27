@@ -27,5 +27,5 @@ jobs:
     - name: Test
       run: go test -v ./...
 
-    # - name: Install llcppg dependencies
-    #  run: bash .github/workflows/install_llcppg_depend.sh
+    - name: Install llcppg dependencies
+     run: bash .github/workflows/install_llcppg_depend.sh

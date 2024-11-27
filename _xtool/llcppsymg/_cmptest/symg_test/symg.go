@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/goplus/llgo/chore/_xtool/llcppsymg/parse"
-	"github.com/goplus/llgo/chore/_xtool/llcppsymg/symbol"
+	"github.com/goplus/llcppg/_xtool/llcppsymg/parse"
+	"github.com/goplus/llcppg/_xtool/llcppsymg/symbol"
 	"github.com/goplus/llgo/xtool/nm"
 )
 
