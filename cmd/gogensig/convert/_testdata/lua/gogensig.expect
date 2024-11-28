@@ -12,17 +12,17 @@ type State struct {
 type Number float64
 type Integer c.LongLong
 type Unsigned c.UlongLong
-type KContext c.IntptrT
+type KContext uintptr
 // llgo:type C
 type CFunction func(*State) c.Int
 // llgo:type C
 type KFunction func(*State, c.Int, KContext) c.Int
 // llgo:type C
-type Reader func(*State, unsafe.Pointer, *c.SizeT) *int8
+type Reader func(*State, unsafe.Pointer, *uintptr) *int8
 // llgo:type C
-type Writer func(*State, unsafe.Pointer, c.SizeT, unsafe.Pointer) c.Int
+type Writer func(*State, unsafe.Pointer, uintptr, unsafe.Pointer) c.Int
 // llgo:type C
-type Alloc func(unsafe.Pointer, unsafe.Pointer, c.SizeT, c.SizeT) unsafe.Pointer
+type Alloc func(unsafe.Pointer, unsafe.Pointer, uintptr, uintptr) unsafe.Pointer
 // llgo:type C
 type WarnFunction func(unsafe.Pointer, *int8, c.Int)
 
@@ -32,7 +32,7 @@ type Debug struct {
 	Namewhat        *int8
 	What            *int8
 	Source          *int8
-	Srclen          c.SizeT
+	Srclen          uintptr
 	Currentline     c.Int
 	Linedefined     c.Int
 	Lastlinedefined c.Int
@@ -97,7 +97,7 @@ func Tointegerx(L *State, idx c.Int, isnum *c.Int) Integer
 //go:linkname Toboolean C.lua_toboolean
 func Toboolean(L *State, idx c.Int) c.Int
 //go:linkname Tolstring C.lua_tolstring
-func Tolstring(L *State, idx c.Int, len *c.SizeT) *int8
+func Tolstring(L *State, idx c.Int, len *uintptr) *int8
 //go:linkname Rawlen C.lua_rawlen
 func Rawlen(L *State, idx c.Int) Unsigned
 //go:linkname Tocfunction C.lua_tocfunction
@@ -121,7 +121,7 @@ func Pushnumber(L *State, n Number)
 //go:linkname Pushinteger C.lua_pushinteger
 func Pushinteger(L *State, n Integer)
 //go:linkname Pushlstring C.lua_pushlstring
-func Pushlstring(L *State, s *int8, len c.SizeT) *int8
+func Pushlstring(L *State, s *int8, len uintptr) *int8
 //go:linkname Pushstring C.lua_pushstring
 func Pushstring(L *State, s *int8) *int8
 //go:linkname Pushfstring C.lua_pushfstring
@@ -151,7 +151,7 @@ func Rawgetp(L *State, idx c.Int, p unsafe.Pointer) c.Int
 //go:linkname Createtable C.lua_createtable
 func Createtable(L *State, narr c.Int, nrec c.Int)
 //go:linkname Newuserdatauv C.lua_newuserdatauv
-func Newuserdatauv(L *State, sz c.SizeT, nuvalue c.Int) unsafe.Pointer
+func Newuserdatauv(L *State, sz uintptr, nuvalue c.Int) unsafe.Pointer
 //go:linkname Getmetatable C.lua_getmetatable
 func Getmetatable(L *State, objindex c.Int) c.Int
 //go:linkname Getiuservalue C.lua_getiuservalue
@@ -205,7 +205,7 @@ func Concat(L *State, n c.Int)
 //go:linkname Len C.lua_len
 func Len(L *State, idx c.Int)
 //go:linkname Stringtonumber C.lua_stringtonumber
-func Stringtonumber(L *State, s *int8) c.SizeT
+func Stringtonumber(L *State, s *int8) uintptr
 //go:linkname Getallocf C.lua_getallocf
 func Getallocf(L *State, ud *unsafe.Pointer) Alloc
 //go:linkname Setallocf C.lua_setallocf
