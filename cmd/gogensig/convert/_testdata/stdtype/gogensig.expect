@@ -1,0 +1,7 @@
+===== temp.go =====
+package stdtype
+
+import _ "unsafe"
+//go:linkname TestStdType C.testStdType
+func TestStdType(a uintptr, b uintptr)
+
