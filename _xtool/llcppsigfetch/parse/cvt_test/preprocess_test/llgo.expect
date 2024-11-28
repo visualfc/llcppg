@@ -1,4 +1,9 @@
 #stdout
+=== TestSystemHeader ===
+stdio.h is absolute path
+include files are all system headers
+=== TestInclusionMap ===
+sys/types.h include path found
 TestDefine Case 1:
 {
 	"temp.h":	{
@@ -110,10 +115,7 @@ TestInclude Case 1:
 	"temp.h":	{
 		"_Type":	"File",
 		"decls":	[],
-		"includes":	[{
-				"_Type":	"Include",
-				"Path":	"foo.h"
-			}],
+		"includes":	[],
 		"macros":	[]
 	}
 }
@@ -169,7 +171,7 @@ TestMacroExpansionOtherFile:
 			}],
 		"includes":	[{
 				"_Type":	"Include",
-				"Path":	"def.h"
+				"Path":	"./testdata/macroexpan/def.h"
 			}],
 		"macros":	[]
 	},

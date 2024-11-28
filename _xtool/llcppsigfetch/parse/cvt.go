@@ -7,17 +7,19 @@ import (
 	"strings"
 	"unsafe"
 
-	"github.com/goplus/llgo/c"
-	"github.com/goplus/llgo/c/cjson"
-	"github.com/goplus/llgo/c/clang"
 	"github.com/goplus/llcppg/_xtool/llcppsymg/clangutils"
 	"github.com/goplus/llcppg/ast"
 	"github.com/goplus/llcppg/token"
+	"github.com/goplus/llgo/c"
+	"github.com/goplus/llgo/c/cjson"
+	"github.com/goplus/llgo/c/clang"
 )
 
 type FileEntry struct {
-	Path string
-	Doc  *ast.File
+	Path    string
+	IncPath string
+	IsSys   bool
+	Doc     *ast.File
 }
 
 type Converter struct {
@@ -58,17 +60,40 @@ func NewConverter(config *clangutils.Config) (*Converter, error) {
 		return nil, err
 	}
 
+	files := initFileEntries(unit)
+
 	return &Converter{
-		Files: make([]*FileEntry, 0),
+		Files: files,
 		index: index,
 		unit:  unit,
 	}, nil
+
 }
 
 func (ct *Converter) Dispose() {
 	ct.logln("Dispose")
 	ct.index.Dispose()
 	ct.unit.Dispose()
+}
+
+func initFileEntries(unit *clang.TranslationUnit) []*FileEntry {
+	files := make([]*FileEntry, 0)
+	clangutils.GetInclusions(unit, func(inced clang.File, incins []clang.SourceLocation) {
+		loc := unit.GetLocation(inced, 1, 1)
+		incedFile := toStr(inced.FileName())
+		var incPath string
+		if len(incins) > 0 {
+			cur := unit.GetCursor(&incins[0])
+			incPath = toStr(cur.String())
+		}
+		files = append(files, &FileEntry{
+			Path:    incedFile,
+			IncPath: incPath,
+			IsSys:   loc.IsInSystemHeader() != 0,
+			Doc:     &ast.File{},
+		})
+	})
+	return files
 }
 
 func (ct *Converter) GetTokens(cursor clang.Cursor) []*ast.Token {
@@ -121,42 +146,40 @@ func (ct *Converter) logln(args ...interface{}) {
 	}
 }
 
-func (ct *Converter) UpdateLoc(cursor clang.Cursor) {
+func (ct *Converter) GetCurFile(cursor clang.Cursor) *ast.File {
 	loc := cursor.Location()
 	var file clang.File
 	loc.SpellingLocation(&file, nil, nil, nil)
-
 	filePath := toStr(file.FileName())
-
 	if filePath == "" {
 		//todo(zzy): For some built-in macros, there is no file.
 		ct.curLoc = ast.Location{File: ""}
-		return
-	}
-	ct.curLoc = ast.Location{File: filePath}
-}
-
-func (ct *Converter) GetCurFile() *ast.File {
-	if ct.curLoc.File == "" {
 		ct.logln("GetCurFile: NO FILE")
 		return nil
 	}
+	ct.curLoc = ast.Location{File: filePath}
+
 	// todo(zzy): more efficient
 	for i, entry := range ct.Files {
-		if entry.Path == ct.curLoc.File {
-			ct.logln("GetCurFile: found", ct.curLoc.File)
+		if entry.Path == filePath {
+			ct.logln("GetCurFile: found", filePath)
 			return ct.Files[i].Doc
 		}
 	}
-	ct.logln("GetCurFile: Create New ast.File", ct.curLoc.File)
-	newDoc := &ast.File{}
-	ct.Files = append(ct.Files, &FileEntry{Path: ct.curLoc.File, Doc: newDoc})
-	return newDoc
+	ct.logln("GetCurFile: Create New ast.File", filePath)
+	entry := &FileEntry{Path: filePath, Doc: &ast.File{}, IsSys: false}
+	if loc.IsInSystemHeader() != 0 {
+		entry.IsSys = true
+	}
+	ct.Files = append(ct.Files, entry)
+	return entry.Doc
 }
 
 func (ct *Converter) CreateDeclBase(cursor clang.Cursor) ast.DeclBase {
 	base := ast.DeclBase{
-		Loc:    &ct.curLoc,
+		Loc: &ast.Location{
+			File: ct.curLoc.File,
+		},
 		Parent: ct.BuildScopingExpr(cursor.SemanticParent()),
 	}
 	commentGroup, isDoc := ct.ParseCommentGroup(cursor)
@@ -206,9 +229,7 @@ func (ct *Converter) visitTop(cursor, parent clang.Cursor) clang.ChildVisitResul
 	ct.incIndent()
 	defer ct.decIndent()
 
-	ct.UpdateLoc(cursor)
-
-	curFile := ct.GetCurFile()
+	curFile := ct.GetCurFile(cursor)
 
 	name := toStr(cursor.String())
 	ct.logf("visitTop: Cursor: %s\n", name)
@@ -219,7 +240,11 @@ func (ct *Converter) visitTop(cursor, parent clang.Cursor) clang.ChildVisitResul
 
 	switch cursor.Kind {
 	case clang.CursorInclusionDirective:
-		include := ct.ProcessInclude(cursor)
+		include, err := ct.ProcessInclude(cursor)
+		if err != nil {
+			ct.logln(err)
+			return clang.ChildVisit_Continue
+		}
 		curFile.Includes = append(curFile.Includes, include)
 		ct.logln("visitTop: ProcessInclude END ", include.Path)
 	case clang.CursorMacroDefinition:
@@ -276,7 +301,7 @@ func (ct *Converter) visitTop(cursor, parent clang.Cursor) clang.ChildVisitResul
 		curFile.Decls = append(curFile.Decls, typedefDecl)
 		ct.logln("visitTop: ProcessTypeDefDecl END", typedefDecl.Name.Name)
 	case clang.CursorNamespace:
-		VisitChildren(cursor, ct.visitTop)
+		clangutils.VisitChildren(cursor, ct.visitTop)
 	}
 	return clang.ChildVisit_Continue
 }
@@ -284,17 +309,8 @@ func (ct *Converter) visitTop(cursor, parent clang.Cursor) clang.ChildVisitResul
 func (ct *Converter) Convert() ([]*FileEntry, error) {
 	cursor := ct.unit.Cursor()
 	// visit top decls (struct,class,function & macro,include)
-	VisitChildren(cursor, ct.visitTop)
+	clangutils.VisitChildren(cursor, ct.visitTop)
 	return ct.Files, nil
-}
-
-type Visitor func(cursor, parent clang.Cursor) clang.ChildVisitResult
-
-func VisitChildren(cursor clang.Cursor, fn Visitor) c.Uint {
-	return clang.VisitChildren(cursor, func(cursor, parent clang.Cursor, clientData unsafe.Pointer) clang.ChildVisitResult {
-		cfn := *(*Visitor)(clientData)
-		return cfn(cursor, parent)
-	}, unsafe.Pointer(&fn))
 }
 
 func (ct *Converter) ProcessType(t clang.Type) ast.Expr {
@@ -521,7 +537,7 @@ func (ct *Converter) ProcessMethodAttributes(cursor clang.Cursor, fn *ast.FuncDe
 func (ct *Converter) ProcessEnumType(cursor clang.Cursor) *ast.EnumType {
 	items := make([]*ast.EnumItem, 0)
 
-	VisitChildren(cursor, func(cursor, parent clang.Cursor) clang.ChildVisitResult {
+	clangutils.VisitChildren(cursor, func(cursor, parent clang.Cursor) clang.ChildVisitResult {
 		if cursor.Kind == clang.CursorEnumConstantDecl {
 			name := cursor.String()
 			defer name.Dispose()
@@ -578,9 +594,14 @@ func (ct *Converter) ProcessMacro(cursor clang.Cursor) *ast.Macro {
 	return macro
 }
 
-func (ct *Converter) ProcessInclude(cursor clang.Cursor) *ast.Include {
+func (ct *Converter) ProcessInclude(cursor clang.Cursor) (*ast.Include, error) {
 	name := toStr(cursor.String())
-	return &ast.Include{Path: name}
+	includedFile := cursor.IncludedFile()
+	includedPath := toStr(includedFile.FileName())
+	if includedPath == "" {
+		return nil, fmt.Errorf("%s: failed to get included file", name)
+	}
+	return &ast.Include{Path: includedPath}, nil
 }
 
 func (ct *Converter) createBaseField(cursor clang.Cursor) *ast.Field {
@@ -619,7 +640,7 @@ func (ct *Converter) ProcessFieldList(cursor clang.Cursor) *ast.FieldList {
 
 	params := &ast.FieldList{}
 	ct.logln("ProcessFieldList: VisitChildren")
-	VisitChildren(cursor, func(subcsr, parent clang.Cursor) clang.ChildVisitResult {
+	clangutils.VisitChildren(cursor, func(subcsr, parent clang.Cursor) clang.ChildVisitResult {
 		switch subcsr.Kind {
 		case clang.CursorParmDecl, clang.CursorFieldDecl:
 			// In C language, parameter lists do not have similar parameter grouping in Go.
@@ -665,7 +686,7 @@ func (ct *Converter) ProcessFieldList(cursor clang.Cursor) *ast.FieldList {
 // Note:Public Method is considered
 func (ct *Converter) ProcessMethods(cursor clang.Cursor) []*ast.FuncDecl {
 	methods := make([]*ast.FuncDecl, 0)
-	VisitChildren(cursor, func(subcsr, parent clang.Cursor) clang.ChildVisitResult {
+	clangutils.VisitChildren(cursor, func(subcsr, parent clang.Cursor) clang.ChildVisitResult {
 		if isMethod(subcsr) && subcsr.CXXAccessSpecifier() == clang.CXXPublic {
 			method := ct.ProcessFuncDecl(subcsr)
 			if method != nil {
@@ -950,8 +971,7 @@ func isRangeChildOf(childRange, parentRange clang.SourceRange) bool {
 }
 
 func getOffset(location clang.SourceLocation) c.Uint {
-	var offset c.Uint
-	location.SpellingLocation(nil, nil, nil, &offset)
+	_, _, _, offset := clangutils.GetLocation(location)
 	return offset
 }
 
