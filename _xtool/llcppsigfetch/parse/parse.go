@@ -4,8 +4,10 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"strings"
 
 	"github.com/goplus/llcppg/_xtool/llcppsymg/clangutils"
+	"github.com/goplus/llcppg/types"
 	"github.com/goplus/llgo/c/cjson"
 )
 
@@ -26,13 +28,21 @@ func SetDebug(dbgFlags dbgFlags) {
 
 type Context struct {
 	Files []*FileEntry
-	IsCpp bool
+	*ContextConfig
 }
 
-func NewContext(isCpp bool) *Context {
+type ContextConfig struct {
+	Conf     *types.Config
+	IncFlags []string
+}
+
+func NewContext(cfg *ContextConfig) *Context {
 	return &Context{
 		Files: make([]*FileEntry, 0),
-		IsCpp: isCpp,
+		ContextConfig: &ContextConfig{
+			Conf:     cfg.Conf,
+			IncFlags: cfg.IncFlags,
+		},
 	}
 }
 
@@ -43,7 +53,7 @@ func (p *Context) Output() *cjson.JSON {
 // ProcessFiles processes the given files and adds them to the context
 func (p *Context) ProcessFiles(files []string) error {
 	if debugParse {
-		fmt.Fprintln(os.Stderr, "ProcessFiles: files", files, "isCpp", p.IsCpp)
+		fmt.Fprintln(os.Stderr, "ProcessFiles: files", files, "isCpp", p.Conf.Cplusplus)
 	}
 	for _, file := range files {
 		if err := p.processFile(file); err != nil {
@@ -82,7 +92,8 @@ func (p *Context) parseFile(path string) ([]*FileEntry, error) {
 	converter, err := NewConverter(&clangutils.Config{
 		File:  path,
 		Temp:  false,
-		IsCpp: p.IsCpp,
+		IsCpp: p.Conf.Cplusplus,
+		Args:  p.IncFlags,
 	})
 	if err != nil {
 		return nil, errors.New("failed to create converter " + path)
@@ -90,6 +101,24 @@ func (p *Context) parseFile(path string) ([]*FileEntry, error) {
 	defer converter.Dispose()
 
 	files, err := converter.Convert()
+
+	// the entry file is the first file in the files list
+	entryFile := files[0]
+	if entryFile.IncPath != "" {
+		return nil, errors.New("entry file " + entryFile.Path + " has include path " + entryFile.IncPath)
+	}
+
+	for _, include := range p.Conf.Include {
+		if strings.Contains(entryFile.Path, include) {
+			entryFile.IncPath = include
+			break
+		}
+	}
+
+	if entryFile.IncPath == "" {
+		return nil, errors.New("entry file " + entryFile.Path + " is not in include list")
+	}
+
 	if err != nil {
 		return nil, err
 	}
