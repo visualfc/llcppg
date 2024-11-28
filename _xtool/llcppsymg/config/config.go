@@ -4,9 +4,9 @@ import (
 	"errors"
 	"unsafe"
 
+	"github.com/goplus/llcppg/types"
 	"github.com/goplus/llgo/c"
 	"github.com/goplus/llgo/c/cjson"
-	"github.com/goplus/llgo/chore/llcppg/types"
 )
 
 type Conf struct {

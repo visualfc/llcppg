@@ -8,12 +8,12 @@ import (
 	"strings"
 	"unsafe"
 
+	"github.com/goplus/llcppg/_xtool/llcppsymg/config"
+	"github.com/goplus/llcppg/_xtool/llcppsymg/config/cfgparse"
+	"github.com/goplus/llcppg/_xtool/llcppsymg/parse"
+	"github.com/goplus/llcppg/types"
 	"github.com/goplus/llgo/c"
 	"github.com/goplus/llgo/c/cjson"
-	"github.com/goplus/llgo/chore/_xtool/llcppsymg/config"
-	"github.com/goplus/llgo/chore/_xtool/llcppsymg/config/cfgparse"
-	"github.com/goplus/llgo/chore/_xtool/llcppsymg/parse"
-	"github.com/goplus/llgo/chore/llcppg/types"
 	"github.com/goplus/llgo/xtool/nm"
 )
 

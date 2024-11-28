@@ -1,9 +1,9 @@
 package main
 
 import (
+	test "github.com/goplus/llcppg/_xtool/llcppsigfetch/parse/cvt_test"
+	"github.com/goplus/llcppg/_xtool/llcppsymg/clangutils"
 	"github.com/goplus/llgo/c"
-	test "github.com/goplus/llgo/chore/_xtool/llcppsigfetch/parse/cvt_test"
-	"github.com/goplus/llgo/chore/_xtool/llcppsymg/clangutils"
 )
 
 func main() {

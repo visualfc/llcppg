@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/goplus/llgo/c/cjson"
 	"github.com/goplus/llcppg/_xtool/llcppsymg/clangutils"
+	"github.com/goplus/llgo/c/cjson"
 )
 
 type dbgFlags = int

@@ -1,2 +1,4 @@
 github.com/goplus/llgo v0.9.7 h1:LRF2Fq9ts4QrVxOPZufexalbIoJ1oiBERjCWQ45wxbg=
 github.com/goplus/llgo v0.9.7/go.mod h1:5Fs+08NslqofJ7xtOiIXugkurYOoQvY02ZkFNWA1uEI=
+github.com/goplus/llgo v0.9.8-0.20241127093550-38a7f4f7d589 h1:u0aqHCN6z+Md1FYB052ROjP/6PVlFBtWWuTi/LGuifs=
+github.com/goplus/llgo v0.9.8-0.20241127093550-38a7f4f7d589/go.mod h1:1phqPJEgr/uw59PRz/NB7s54OoP+NGjC6pz0HovT5JY=

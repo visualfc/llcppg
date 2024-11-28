@@ -5,14 +5,20 @@ name: Go
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "**" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "**" ]
 
 jobs:
 
-  build:
-    runs-on: ubuntu-latest
+  test:
+    strategy:
+      matrix:
+        os:
+          - macos-latest
+          - ubuntu-24.04
+        llvm: [18]
+    runs-on: ${{matrix.os}}
     steps:
     - uses: actions/checkout@v4
 
@@ -21,11 +27,37 @@ jobs:
       with:
         go-version: '1.20'
 
+    - name: Install dependencies
+      if: startsWith(matrix.os, 'macos')
+      run: |
+        brew update
+        brew install llvm@${{matrix.llvm}} bdw-gc openssl libffi
+        brew link --force libffi
+        echo "$(brew --prefix llvm@${{matrix.llvm}})/bin" >> $GITHUB_PATH
+
+        # llcppg dependencies
+        brew install cjson
+
+    - name: Install dependencies
+      if: startsWith(matrix.os, 'ubuntu')
+      run: |
+        echo "deb http://apt.llvm.org/$(lsb_release -cs)/ llvm-toolchain-$(lsb_release -cs)-${{matrix.llvm}} main" | sudo tee /etc/apt/sources.list.d/llvm.list
+        wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
+        sudo apt-get update
+        sudo apt-get install -y llvm-${{matrix.llvm}}-dev clang-${{matrix.llvm}} libclang-${{matrix.llvm}}-dev lld-${{matrix.llvm}} pkg-config libgc-dev libssl-dev zlib1g-dev libffi-dev libcjson-dev
+        echo "/usr/lib/llvm-${{matrix.llvm}}/bin" >> $GITHUB_PATH
+
+    - name: Install LLGO
+      run: |
+        go install github.com/goplus/llgo/cmd/llgo@main
+
     - name: Build
       run: go build -v ./...
+
+    - name: Install llcppg dependencies
+      run: bash .github/workflows/install_llcppg_depend.sh
 
     - name: Test
       run: go test -v ./...
 
-    # - name: Install llcppg dependencies
-    #  run: bash .github/workflows/install_llcppg_depend.sh
+

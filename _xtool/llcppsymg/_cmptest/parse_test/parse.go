@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"sort"
 
-	"github.com/goplus/llgo/chore/_xtool/llcppsymg/parse"
+	"github.com/goplus/llcppg/_xtool/llcppsymg/parse"
 )
 
 func main() {

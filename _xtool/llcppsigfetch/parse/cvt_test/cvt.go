@@ -3,11 +3,11 @@ package cvttest
 import (
 	"fmt"
 
+	"github.com/goplus/llcppg/_xtool/llcppsigfetch/parse"
+	"github.com/goplus/llcppg/_xtool/llcppsymg/clangutils"
 	"github.com/goplus/llgo/c"
 	"github.com/goplus/llgo/c/cjson"
 	"github.com/goplus/llgo/c/clang"
-	"github.com/goplus/llgo/chore/_xtool/llcppsigfetch/parse"
-	"github.com/goplus/llgo/chore/_xtool/llcppsymg/clangutils"
 )
 
 func RunTest(testName string, testCases []string) {
