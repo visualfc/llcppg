@@ -32,7 +32,7 @@ func runGoCmds(wd, pkg string) {
 	os.MkdirAll(dir, 0744)
 	os.Chdir(pkg)
 	config.RunCommand(dir, "go", "mod", "init", pkg)
-	config.RunCommand(dir, "go", "get", "github.com/goplus/llgo")
+	config.RunCommand(dir, "go", "get", "github.com/goplus/llgo@main")
 }
 
 func main() {
