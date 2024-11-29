@@ -1,7 +1,10 @@
 ===== temp.go =====
 package _systopkg
 
-import _ "unsafe"
+import (
+	"github.com/goplus/llgo/c/time"
+	_ "unsafe"
+)
 
 
 
@@ -11,7 +14,12 @@ import _ "unsafe"
 
 
 
-
+type Time struct {
+	T1 time.Tm
+	T2 time.TimeT
+	T3 time.ClockT
+	T4 time.Timespec
+}
 
 
 

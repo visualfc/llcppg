@@ -510,12 +510,14 @@ type PkgMapping struct {
 
 const (
 	LLGO_C       = "github.com/goplus/llgo/c"
-	LLGO_SYSTEM  = "github.com/goplus/llgo/c/system"
+	LLGO_OS      = "github.com/goplus/llgo/c/os"
+	LLGO_SETJMP  = "github.com/goplus/llgo/c/setjmp"
 	LLGO_TIME    = "github.com/goplus/llgo/c/time"
 	LLGO_MATH    = "github.com/goplus/llgo/c/math"
 	LLGO_I18N    = "github.com/goplus/llgo/c/i18n"
 	LLGO_COMPLEX = "github.com/goplus/llgo/c/math/cmplx"
 
+	// posix
 	LLGO_PTHREAD  = "github.com/goplus/llgo/c/pthread"
 	LLGO_UNIX_NET = "github.com/goplus/llgo/c/unix/net"
 )
@@ -555,10 +557,12 @@ func IncPathToPkg(incPath string) (pkg string, isDefault bool) {
 		{Pattern: `(^|[^a-zA-Z0-9])wctype[^a-zA-Z0-9]`, Package: LLGO_C},
 		{Pattern: `(^|[^a-zA-Z0-9])inttypes[^a-zA-Z0-9]`, Package: LLGO_C},
 
-		{Pattern: `(^|[^a-zA-Z0-9])signal[^a-zA-Z0-9]`, Package: LLGO_SYSTEM},
-		{Pattern: `(^|[^a-zA-Z0-9])setjmp[^a-zA-Z0-9]`, Package: LLGO_SYSTEM},
-		{Pattern: `(^|[^a-zA-Z0-9])assert[^a-zA-Z0-9]`, Package: LLGO_SYSTEM},
-		{Pattern: `(^|[^a-zA-Z0-9])stdalign[^a-zA-Z0-9]`, Package: LLGO_SYSTEM},
+		{Pattern: `(^|[^a-zA-Z0-9])signal[^a-zA-Z0-9]`, Package: LLGO_OS},
+		{Pattern: `(^|[^a-zA-Z0-9])sig[a-zA-Z]*[^a-zA-Z0-9]`, Package: LLGO_OS},
+		{Pattern: `(^|[^a-zA-Z0-9])assert[^a-zA-Z0-9]`, Package: LLGO_OS},
+		{Pattern: `(^|[^a-zA-Z0-9])stdalign[^a-zA-Z0-9]`, Package: LLGO_OS},
+
+		{Pattern: `(^|[^a-zA-Z0-9])setjmp[^a-zA-Z0-9]`, Package: LLGO_SETJMP},
 
 		{Pattern: `(^|[^a-zA-Z0-9])math[^a-zA-Z0-9]`, Package: LLGO_MATH},
 		{Pattern: `(^|[^a-zA-Z0-9])fenv[^a-zA-Z0-9]`, Package: LLGO_MATH},
@@ -566,11 +570,11 @@ func IncPathToPkg(incPath string) (pkg string, isDefault bool) {
 
 		{Pattern: `(^|[^a-zA-Z0-9])time[^a-zA-Z0-9]`, Package: LLGO_TIME},
 
-		{Pattern: `(^|[^a-zA-Z0-9])pthread[^a-zA-Z0-9]`, Package: LLGO_PTHREAD},
+		{Pattern: `(^|[^a-zA-Z0-9])pthread\w*`, Package: LLGO_PTHREAD},
 
 		{Pattern: `(^|[^a-zA-Z0-9])locale[^a-zA-Z0-9]`, Package: LLGO_I18N},
 
-		//c posix
+		// c posix
 		{Pattern: `(^|[^a-zA-Z0-9])socket[^a-zA-Z0-9]`, Package: LLGO_UNIX_NET},
 		{Pattern: `(^|[^a-zA-Z0-9])arpa[^a-zA-Z0-9]`, Package: LLGO_UNIX_NET},
 		{Pattern: `(^|[^a-zA-Z0-9])netinet6?[^a-zA-Z0-9]`, Package: LLGO_UNIX_NET},
@@ -587,15 +591,14 @@ func IncPathToPkg(incPath string) (pkg string, isDefault bool) {
 		{Pattern: `malloc`, Package: LLGO_C},
 		{Pattern: `alloc`, Package: LLGO_C},
 
-		{Pattern: `(^|[^a-zA-Z0-9])clock_t[^a-zA-Z0-9]`, Package: LLGO_TIME},
+		{Pattern: `(^|[^a-zA-Z0-9])clock(id_t|_t)`, Package: LLGO_TIME},
+		{Pattern: `(^|[^a-zA-Z0-9])(i)?time\w*`, Package: LLGO_TIME},
 		{Pattern: `(^|[^a-zA-Z0-9])tm[^a-zA-Z0-9]`, Package: LLGO_TIME},
 
 		// before must the special type.h such as _pthread_types.h ....
 		{Pattern: `\w+_t[^a-zA-Z0-9]`, Package: LLGO_C},
 		{Pattern: `(^|[^a-zA-Z0-9])types[^a-zA-Z0-9]`, Package: LLGO_C},
-		{Pattern: `(^|[^a-zA-Z0-9])sys[^a-zA-Z0-9]`, Package: LLGO_SYSTEM},
-
-		// {Pattern: `(^|[^a-zA-Z0-9])strings\.h$`, Package: LLGO_C},
+		{Pattern: `(^|[^a-zA-Z0-9])sys[^a-zA-Z0-9]`, Package: LLGO_OS},
 	}
 
 	for _, mapping := range pkgMappings {

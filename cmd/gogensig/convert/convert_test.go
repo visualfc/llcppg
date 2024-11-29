@@ -27,7 +27,6 @@ func TestFromTestdata(t *testing.T) {
 
 // test sys type in stdinclude to package
 func TestSysToPkg(t *testing.T) {
-	t.Skip("TODO")
 	name := "_systopkg"
 	dir, err := os.Getwd()
 	if err != nil {
