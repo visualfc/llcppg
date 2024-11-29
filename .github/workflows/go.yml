@@ -57,6 +57,16 @@ jobs:
     - name: Install llcppg dependencies
       run: bash .github/workflows/install_llcppg_depend.sh
 
+    - name: Test llcppsymg
+      run: |
+        llgo cmptest ./_xtool/llcppsigfetch/parse/cvt_test/...
+
+        # llgo cmptest ./_xtool/llcppsymg/_cmptest/... causes 
+        # panic: runtime error: index out of range [0] with length 0
+        cd _xtool/llcppsymg/_cmptest
+        llgo cmptest ./...
+        cd ../../../
+
     - name: Test
       run: go test -v ./...
 
