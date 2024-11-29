@@ -58,6 +58,17 @@ jobs:
       run: bash .github/workflows/install_llcppg_depend.sh
 
     - name: Test
+      if: ${{!startsWith(matrix.os, 'macos')}}
       run: go test -v ./...
+
+    - name: Test with coverage
+      if: startsWith(matrix.os, 'macos')
+      run: go test -v -coverprofile="coverage.txt" -covermode=atomic ./...
+
+    - name: Upload coverage reports to Codecov
+      uses: codecov/codecov-action@v5
+      with:
+        token: ${{secrets.CODECOV_TOKEN}}
+        slug: goplus/llcppg
 
 
