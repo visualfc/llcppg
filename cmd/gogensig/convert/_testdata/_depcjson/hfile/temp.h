@@ -1,4 +1,5 @@
 #include <cJSON.h>
+#include <stddef.h>
 // This file is supposed to depend on cjson in its cflags, but for testing,
 // we will simulate its API using libcjson instead.
 //   "cflags" :"$(pkg-config --cflags libcjson)"

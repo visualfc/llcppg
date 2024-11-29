@@ -27,7 +27,6 @@ func TestFromTestdata(t *testing.T) {
 
 // test sys type in stdinclude to package
 func TestSysToPkg(t *testing.T) {
-	t.Skip("TODO")
 	name := "_systopkg"
 	dir, err := os.Getwd()
 	if err != nil {
@@ -95,7 +94,6 @@ func TestSysToPkg(t *testing.T) {
 }
 
 func TestDepPkg(t *testing.T) {
-	t.Skip("TODO")
 	name := "_depcjson"
 	dir, err := os.Getwd()
 	if err != nil {

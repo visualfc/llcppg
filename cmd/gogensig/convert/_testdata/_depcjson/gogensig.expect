@@ -2,12 +2,14 @@
 package _depcjson
 
 import (
-	"github.com/goplus/llgo/c"
 	"github.com/goplus/llcppg/cmd/gogensig/convert/testdata/cjson"
+	"github.com/goplus/llgo/c"
 	_ "unsafe"
 )
 //go:linkname CreateResponse C.create_response
 func CreateResponse(status_code c.Int, message *int8) *cjson.CJSON
+//go:linkname ParseClientRequest C.parse_client_request
+func ParseClientRequest(json_string *int8, error_buffer *int8, buffer_size uintptr) cjson.CJSONBool
 //go:linkname SerializeResponse C.serialize_response
 func SerializeResponse(response *cjson.CJSON, buffer *int8, length c.Int, pretty_print cjson.CJSONBool) cjson.CJSONBool
 
