@@ -94,7 +94,6 @@ func TestSysToPkg(t *testing.T) {
 }
 
 func TestDepPkg(t *testing.T) {
-	t.Skip("TODO")
 	name := "_depcjson"
 	dir, err := os.Getwd()
 	if err != nil {
