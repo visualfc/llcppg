@@ -1,6 +1,11 @@
 llcppg - LLGo autogen tool for C/C++ libraries
 ====
 
+[![Build Status](https://github.com/goplus/llcppg/actions/workflows/go.yml/badge.svg)](https://github.com/goplus/llcppg/actions/workflows/go.yml)
+[![Go Report Card](https://goreportcard.com/badge/github.com/goplus/llcppg)](https://goreportcard.com/report/github.com/goplus/llcppg)
+[![Coverage Status](https://codecov.io/gh/goplus/llcppg/branch/main/graph/badge.svg)](https://codecov.io/gh/goplus/llcppg)
+[![Language](https://img.shields.io/badge/language-Go+-blue.svg)](https://github.com/goplus/gop)
+
 ## How to install
 
 This project depends on LLGO's C ecosystem integration capability, and some components of this tool must be compiled with LLGO. For LLGO installation, please refer to:
@@ -14,6 +19,7 @@ llgo install ./_xtool/llcppsigfetch
 go install ./cmd/gogensig
 go install .
 ```
+
 
 ## Usage
 
