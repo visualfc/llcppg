@@ -143,7 +143,7 @@ func runFromConfig(cfgFile string, useStdin bool, outputToFile bool, verbose boo
 
 	conf, err := config.GetConf(data)
 	check(err)
-	defer conf.Delete()
+	//defer conf.Delete()
 
 	if err != nil {
 		fmt.Fprintln(os.Stderr, "Failed to parse config file:", cfgFile)
