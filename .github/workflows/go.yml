@@ -49,8 +49,11 @@ jobs:
 
     - name: Install LLGO
       run: |
-        git clone https://github.com/visualfc/llgo@llcppg
-        go install ./llgo/cmd/llgo
+        git clone https://github.com/visualfc/llgo
+        cd llgo
+        git checkout llcppg
+        go install ./cmd/llgo
+        cd ..
         #go install github.com/goplus/llgo/cmd/llgo@main
         #go install github.com/goplus/llgo/cmd/llgo@7a5bd6ae6a7f1784d740dff43056806585a246e0
 
